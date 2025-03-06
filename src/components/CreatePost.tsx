@@ -20,11 +20,11 @@ const CreatePost: React.FC<CreatePostProps> = ({ userId, onPostCreated }) => {
   const [loading, setLoading] = useState(false);
 
   const fetchCoordinates = async (placeName: string) => {
-    const API_KEY = import.meta.env.VITE_MAP_API_KEY;
-    console.log(API_KEY);
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(
+    const MAP_API_KEY = import.meta.env.VITE_MAP_API_KEY;
+    console.log(MAP_API_KEY);
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(
       placeName
-    )}&limit=1&appid=${API_KEY}`;
+    )}&limit=1&appid=${MAP_API_KEY}`;
 
     try {
       const response = await fetch(url);
