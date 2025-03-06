@@ -21,6 +21,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ userId, onPostCreated }) => {
 
   const fetchCoordinates = async (placeName: string) => {
     const API_KEY = import.meta.env.VITE_MAP_API_KEY;
+    console.log(API_KEY);
     const url = `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(
       placeName
     )}&limit=1&appid=${API_KEY}`;
