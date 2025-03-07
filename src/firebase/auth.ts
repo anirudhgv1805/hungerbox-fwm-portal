@@ -5,10 +5,10 @@ import app from "./firebase";
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export const signUp = async (email: string, password: string, role: "hungerbox" | "ngo") => {
+export const signUp = async (name : string ,email: string, password: string, role: "biogasplant" | "ngo") => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
-  await setDoc(doc(db, "users", user.uid), { email: user.email, role: role });
+  await setDoc(doc(db, "users", user.uid), { name : name ,email: user.email, role: role });
   return user;
 };
 

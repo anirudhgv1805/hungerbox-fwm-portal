@@ -41,8 +41,8 @@ function App() {
             <Navigate
               to={
                 role
-                  ? role === "hungerbox"
-                    ? "/hungerbox-dashboard"
+                  ? role === "biogasplant"
+                    ? "/biogasplant-dashboard"
                     : "/ngo-dashboard"
                   : "/login"
               }
@@ -52,9 +52,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
-          path="/hungerbox-dashboard"
+          path="/biogasplant-dashboard"
           element={
-            role === "hungerbox" ? (
+            role === "biogasplant" ? (
               <HungerBoxDashboard />
             ) : (
               <Navigate to="/login" />

@@ -12,8 +12,8 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const { role } = await login(email, password);
-      if (role === "hungerbox") {
-        navigate("/hungerbox-dashboard");
+      if (role === "biogasplant") {
+        navigate("/biogasplant-dashboard");
       } else if (role === "ngo") {
         navigate("/ngo-dashboard");
       }

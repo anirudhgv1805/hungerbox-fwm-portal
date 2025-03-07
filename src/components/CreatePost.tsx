@@ -17,11 +17,10 @@ interface CreatePostProps {
 const CreatePost: React.FC<CreatePostProps> = ({ userId, onPostCreated }) => {
   const [foodDetails, setFoodDetails] = useState("");
   const [location, setLocation] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
   const [loading, setLoading] = useState(false);
 
   const fetchCoordinates = async (placeName: string) => {
-    const MAP_API_KEY = import.meta.env.VITE_MAP_API_KEY;
-    console.log(MAP_API_KEY);
     const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(
       placeName
     )}&limit=1&appid=12f776a2003dd3a8d2bac9996ea7c2b0`;
@@ -43,7 +42,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ userId, onPostCreated }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!foodDetails || !location) {
+    if (!foodDetails || !location || !phonenumber) {
       alert("Please fill all fields!");
       return;
     }
@@ -65,11 +64,14 @@ const CreatePost: React.FC<CreatePostProps> = ({ userId, onPostCreated }) => {
         lat: coordinates.lat,
         lon: coordinates.lon,
         createdAt: Timestamp.now(),
+        phonenumber: phonenumber,
+        isBooked: false,
       });
 
       alert("Post created successfully!");
       setFoodDetails("");
       setLocation("");
+      setPhonenumber("");
 
       onPostCreated();
     } catch (error) {
@@ -94,6 +96,13 @@ const CreatePost: React.FC<CreatePostProps> = ({ userId, onPostCreated }) => {
           placeholder="Enter location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
+          className="border p-2 rounded-md"
+        />
+        <input
+          type="tel"
+          placeholder="Enter Phone number"
+          value={phonenumber}
+          onChange={(e) => setPhonenumber(e.target.value)}
           className="border p-2 rounded-md"
         />
         <button

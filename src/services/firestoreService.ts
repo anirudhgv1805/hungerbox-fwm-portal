@@ -1,9 +1,21 @@
 import app from "../firebase/firebase";
-import { collection, addDoc, getDocs, query, orderBy, Timestamp, getFirestore } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, orderBy, Timestamp, getFirestore, updateDoc, doc, getDoc, onSnapshot } from "firebase/firestore";
 
 const db = getFirestore(app)
 
-export const addPost = async (title: string, description: string, quantity: number, location: string, userId: string) => {
+export interface Post {
+  id: string;
+  foodDetails: string;
+  location: string;
+  lat: number;
+  lon: number;
+  createdAt: { seconds: number };
+  phonenumber: string;
+  isBooked: boolean;
+  userId: string;
+}
+
+export const addPost = async (title: string, description: string, quantity: number, location: string, userId: string,phonenumber : number,isBooked : boolean) => {
   try {
     await addDoc(collection(db, "posts"), {
       title,
@@ -12,6 +24,8 @@ export const addPost = async (title: string, description: string, quantity: numb
       location,
       timestamp: Timestamp.now(),
       createdBy: userId,
+      phonenumber,
+      isBooked,
     });
     console.log("Post added successfully!");
   } catch (error) {
@@ -29,4 +43,33 @@ export const fetchPosts = async () => {
     console.error("Error fetching posts: ", error);
     return [];  
   }
+};
+
+export const updatePostBookingStatus = async (postId :string, isBooked : boolean) => {
+  const postRef = doc(db, "posts", postId);
+  await updateDoc(postRef, {
+    isBooked: isBooked,
+  });
+};
+
+export const getUsernameById = async (userId : string) => {
+  const userRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userRef);
+  if (userDoc.exists()) {
+    console.log("User found:", userDoc.data());
+    return userDoc.data().name;
+  } else {
+    throw new Error("User not found");
+  }
+};
+
+export const listenToPosts = (callback: (posts: Post[]) => void) => {
+  const postsRef = collection(db, "posts");
+  return onSnapshot(postsRef, (snapshot) => {
+    const posts = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    } as Post));
+    callback(posts);
+  });
 };
