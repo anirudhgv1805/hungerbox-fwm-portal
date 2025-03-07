@@ -33,15 +33,25 @@ export const addPost = async (title: string, description: string, quantity: numb
   }
 };
 
-export const fetchPosts = async () => {
+export const fetchPosts = async (): Promise<Post[]> => {
   try {
     const postsRef = collection(db, "posts");
     const q = query(postsRef, orderBy("timestamp", "desc"));
     const snapshot = await getDocs(q);
-    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    return snapshot.docs.map((doc) => ({
+      id: doc.id,
+      foodDetails: doc.data().foodDetails,
+      location: doc.data().location,
+      lat: doc.data().lat,
+      lon: doc.data().lon,
+      createdAt: doc.data().createdAt,
+      phonenumber: doc.data().phonenumber,
+      isBooked: doc.data().isBooked,
+      userId: doc.data().userId,
+    }));
   } catch (error) {
     console.error("Error fetching posts: ", error);
-    return [];  
+    return [];
   }
 };
 
