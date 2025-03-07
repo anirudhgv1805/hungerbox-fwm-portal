@@ -24,7 +24,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ userId, onPostCreated }) => {
     console.log(MAP_API_KEY);
     const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(
       placeName
-    )}&limit=1&appid=${MAP_API_KEY}`;
+    )}&limit=1&appid=12f776a2003dd3a8d2bac9996ea7c2b0`;
 
     try {
       const response = await fetch(url);

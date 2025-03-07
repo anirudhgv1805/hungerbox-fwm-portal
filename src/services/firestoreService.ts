@@ -27,6 +27,6 @@ export const fetchPosts = async () => {
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
     console.error("Error fetching posts: ", error);
-    return [];
+    return [];  
   }
 };
